@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepFake Voice Detection | 虚假语音检测系统</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <div class="nav-logo-icon">🎙️</div>
+                <span>DeepFake Voice Detection</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/" class="active">语音检测</a></li>
+                <li><a href="/models">模型介绍</a></li>
+                <li><a href="/theory">理论原理</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="page-header">
+            <h1>基于深度学习的虚假语音检测系统</h1>
+            <p>利用先进的深度学习技术，精准识别AI合成语音，守护语音通信安全</p>
+        </div>
+
+        <div class="detection-grid">
+            <!-- Left: Control Panel -->
+            <div class="control-panel">
+                <div class="card">
+                    <div class="card-title">检测控制</div>
+                    
+                    <!-- Model Selection -->
+                    <div class="form-group">
+                        <label class="form-label">选择检测模型</label>
+                        <select id="modelSelect" class="form-select">
+                            <option value="resnet18">ResNet-18 (推荐)</option>
+                            <option value="simple_cnn">Simple CNN</option>
+                            <option value="lightcnn">LightCNN</option>
+                            <option value="conformer">Conformer</option>
+                        </select>
+                    </div>
+
+                    <!-- File Upload -->
+                    <div class="form-group">
+                        <label class="form-label">上传音频文件</label>
+                        <div class="upload-area" id="uploadArea" onclick="document.getElementById('audioInput').click()">
+                            <div class="upload-icon">📁</div>
+                            <div class="upload-text">点击或拖拽上传音频</div>
+                            <div class="upload-hint">支持 WAV, FLAC, MP3, OGG</div>
+                            <input type="file" id="audioInput" accept="audio/*" hidden>
+                        </div>
+                    </div>
+
+                    <!-- Sample Selection -->
+                    <div class="sample-section">
+                        <div class="form-label">或使用示例音频</div>
+                        <div class="sample-buttons">
+                            <button class="sample-btn" onclick="loadSample('bonafide', 'bonafide_0000.wav')">
+                                🟢 真实语音
+                            </button>
+                            <button class="sample-btn" onclick="loadSample('spoof', 'spoof_0000.wav')">
+                                🔴 虚假语音
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Detect Button -->
+                    <button id="detectBtn" class="btn btn-primary" onclick="startDetection()" style="margin-top: 1.5rem;">
+                        <span id="btnText">开始检测</span>
+                    </button>
+                </div>
+
+                <!-- Result Card -->
+                <div class="card" style="margin-top: 1.5rem;">
+                    <div class="card-title">检测结果</div>
+                    <div class="result-card">
+                        <div id="resultStatus" class="result-status idle">
+                            等待检测
+                        </div>
+                        
+                        <div id="progressSection" style="display: none;">
+                            <div class="progress-item">
+                                <div class="progress-label">
+                                    <span>真实语音 (Bonafide)</span>
+                                    <span id="realPercent">--%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div id="realProgress" class="progress-fill real" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <div class="progress-item">
+                                <div class="progress-label">
+                                    <span>虚假语音 (Spoof)</span>
+                                    <span id="fakePercent">--%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div id="fakeProgress" class="progress-fill fake" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="infoSection" style="display: none;">
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <div class="info-label">置信度</div>
+                                    <div class="info-value" id="confidenceValue">--</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">音频时长</div>
+                                    <div class="info-value" id="durationValue">--</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Visualization -->
+            <div class="card viz-panel">
+                <div class="card-title">特征可视化分析</div>
+                
+                <div class="viz-tabs">
+                    <button class="viz-tab active" onclick="switchTab('waveform')">波形图</button>
+                    <button class="viz-tab" onclick="switchTab('mel')">梅尔频谱</button>
+                    <button class="viz-tab" onclick="switchTab('f0')">F0 基频</button>
+                </div>
+
+                <div id="waveformTab" class="viz-content active">
+                    <div id="waveformPlaceholder" class="viz-placeholder">
+                        <div class="viz-placeholder-icon">📊</div>
+                        <p>上传音频后查看波形图</p>
+                    </div>
+                    <img id="waveformImage" class="viz-image" style="display: none;">
+                </div>
+
+                <div id="melTab" class="viz-content">
+                    <div id="melPlaceholder" class="viz-placeholder">
+                        <div class="viz-placeholder-icon">📈</div>
+                        <p>上传音频后查看梅尔频谱图</p>
+                    </div>
+                    <img id="melImage" class="viz-image" style="display: none;">
+                </div>
+
+                <div id="f0Tab" class="viz-content">
+                    <div id="f0Placeholder" class="viz-placeholder">
+                        <div class="viz-placeholder-icon">📉</div>
+                        <p>上传音频后查看F0基频曲线</p>
+                    </div>
+                    <img id="f0Image" class="viz-image" style="display: none;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>基于深度学习的虚假语音检测系统 | Deep Learning Powered Voice Anti-Spoofing</p>
+    </div>
+
+    <script src="/static/js/detection.js"></script>
+</body>
+</html>

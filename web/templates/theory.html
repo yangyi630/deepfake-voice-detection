@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>理论原理 | DeepFake Voice Detection</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <div class="nav-logo-icon">🎙️</div>
+                <span>DeepFake Voice Detection</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/">语音检测</a></li>
+                <li><a href="/models">模型介绍</a></li>
+                <li><a href="/theory" class="active">理论原理</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="page-header">
+            <h1>理论原理与技术深度</h1>
+            <p>深入理解虚假语音检测的技术原理、方法体系与发展前沿</p>
+        </div>
+
+        <div class="theory-container">
+            <!-- Sidebar Navigation -->
+            <div class="theory-sidebar">
+                <ul class="theory-nav" id="theoryNav">
+                    <li><a class="active" onclick="loadSection('background')">1. 研究背景与意义</a></li>
+                    <li><a onclick="loadSection('deepfake_techniques')">2. AI语音造假技术</a></li>
+                    <li><a onclick="loadSection('detection_methods')">3. 检测方法体系</a></li>
+                    <li><a onclick="loadSection('feature_analysis')">4. 特征分析技术</a></li>
+                    <li><a onclick="loadSection('datasets_benchmarks')">5. 数据集与基准</a></li>
+                    <li><a onclick="loadSection('challenges')">6. 当前挑战与问题</a></li>
+                    <li><a onclick="loadSection('future_directions')">7. 未来研究方向</a></li>
+                </ul>
+            </div>
+
+            <!-- Content Area -->
+            <div class="theory-content" id="theoryContent">
+                <!-- Content loaded dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>基于深度学习的虚假语音检测系统 | Deep Learning Powered Voice Anti-Spoofing</p>
+    </div>
+
+    <script src="/static/js/theory.js"></script>
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模型介绍 | DeepFake Voice Detection</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <div class="nav-logo-icon">🎙️</div>
+                <span>DeepFake Voice Detection</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/">语音检测</a></li>
+                <li><a href="/models" class="active">模型介绍</a></li>
+                <li><a href="/theory">理论原理</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="page-header">
+            <h1>深度学习模型架构</h1>
+            <p>四种经典深度学习模型，从不同角度探索虚假语音检测的最优解</p>
+        </div>
+
+        <!-- Model Cards -->
+        <div class="models-grid">
+            <!-- Simple CNN -->
+            <div class="model-card cnn">
+                <div class="model-icon">🧠</div>
+                <h3 class="model-name">Simple CNN</h3>
+                <span class="model-params">~101K 参数</span>
+                <p class="model-desc">
+                    三层卷积神经网络基线模型，结构简单，训练速度快，
+                    适合作为检测任务的基准对比模型。
+                </p>
+                <div class="model-features">
+                    <h4>核心特点</h4>
+                    <ul>
+                        <li>3层卷积 + 池化结构</li>
+                        <li>BatchNorm 加速收敛</li>
+                        <li>Dropout 防止过拟合</li>
+                        <li>训练速度快，易于调试</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- ResNet-18 -->
+            <div class="model-card resnet">
+                <div class="model-icon">🏗️</div>
+                <h3 class="model-name">ResNet-18</h3>
+                <span class="model-params">~11.3M 参数</span>
+                <p class="model-desc">
+                    深度残差网络，通过跳跃连接解决梯度消失问题，
+                    能够学习更丰富的层次化特征表示。
+                </p>
+                <div class="model-features">
+                    <h4>核心特点</h4>
+                    <ul>
+                        <li>18层深度残差结构</li>
+                        <li>Shortcut 跳跃连接</li>
+                        <li>层次化特征提取</li>
+                        <li>优秀的泛化能力</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- LightCNN -->
+            <div class="model-card lightcnn">
+                <div class="model-icon">💡</div>
+                <h3 class="model-name">LightCNN</h3>
+                <span class="model-params">~2.3M 参数</span>
+                <p class="model-desc">
+                    轻量级CNN，采用Max-Feature-Map激活函数，
+                    能够自动选择更具判别力的特征通道。
+                </p>
+                <div class="model-features">
+                    <h4>核心特点</h4>
+                    <ul>
+                        <li>MFM 最大特征映射激活</li>
+                        <li>轻量化网络结构</li>
+                        <li>特征自动选择机制</li>
+                        <li>参数量少，部署友好</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Conformer -->
+            <div class="model-card conformer">
+                <div class="model-icon">🔗</div>
+                <h3 class="model-name">Conformer</h3>
+                <span class="model-params">~3.0M 参数</span>
+                <p class="model-desc">
+                    卷积增强的Transformer模型，结合CNN的局部特征提取
+                    和自注意力的长距离依赖建模能力。
+                </p>
+                <div class="model-features">
+                    <h4>核心特点</h4>
+                    <ul>
+                        <li>自注意力机制</li>
+                        <li>深度可分离卷积</li>
+                        <li>Macaron前馈网络</li>
+                        <li>长时依赖建模</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comparison Table -->
+        <div class="comparison-section">
+            <h2>模型对比分析</h2>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>模型</th>
+                        <th>参数量</th>
+                        <th>核心思想</th>
+                        <th>优势</th>
+                        <th>适用场景</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Simple CNN</strong></td>
+                        <td>~101K</td>
+                        <td>基础卷积特征提取</td>
+                        <td>简单快速，易于实现</td>
+                        <td>基线对比、资源受限设备</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ResNet-18</strong></td>
+                        <td>~11.3M</td>
+                        <td>残差连接，深度网络</td>
+                        <td>特征层次丰富，精度高</td>
+                        <td>高精度要求、服务器端部署</td>
+                    </tr>
+                    <tr>
+                        <td><strong>LightCNN</strong></td>
+                        <td>~2.3M</td>
+                        <td>MFM特征选择</td>
+                        <td>轻量高效，特征精选</td>
+                        <td>移动端部署、实时检测</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Conformer</strong></td>
+                        <td>~3.0M</td>
+                        <td>CNN + Transformer混合</td>
+                        <td>长时依赖建模能力强</td>
+                        <td>长音频分析、复杂场景</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Technical Depth Section -->
+        <div class="card" style="margin-top: 3rem;">
+            <div class="card-title">为什么选择这四种模型？</div>
+            <div style="padding: 1rem 0; line-height: 2; color: var(--text-secondary);">
+                <p>
+                    <strong>1. 覆盖不同的深度学习范式</strong><br>
+                    从基础CNN到深度残差网络，从特征选择到注意力机制，
+                    四种模型代表了深度学习发展的四个重要方向。通过对比可以深入理解
+                    不同架构设计背后的理论思考。
+                </p>
+                <p style="margin-top: 1rem;">
+                    <strong>2. 体现精度与效率的权衡</strong><br>
+                    参数量从10万到1100万跨度达100倍，反映了实际工程中
+                    "模型精度 vs 计算资源"的经典权衡问题。没有最好的模型，
+                    只有最适合的模型。
+                </p>
+                <p style="margin-top: 1rem;">
+                    <strong>3. 对应不同的检测思路</strong><br>
+                    CNN关注局部频谱纹理特征，Conformer关注全局时序依赖，
+                    LightCNN关注特征通道的选择。不同的思路从不同角度
+                    捕捉虚假语音的人工痕迹。
+                </p>
+                <p style="margin-top: 1rem;">
+                    <strong>4. 学术研究的代表性</strong><br>
+                    这四种模型架构在ASVspoof挑战赛、Interspeech、ICASSP等
+                    顶级会议中都有广泛应用和研究，具有很强的学术代表性。
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>基于深度学习的虚假语音检测系统 | Deep Learning Powered Voice Anti-Spoofing</p>
+    </div>
+</body>
+</html>
